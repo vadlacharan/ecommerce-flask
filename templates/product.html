@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Product View</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #343a40;
+      color: #fff;
+    }
+
+    .product-container {
+      max-width: 600px;
+      margin: auto;
+      margin-top: 50px;
+    }
+
+    .product-card {
+      background-color: #454d55;
+      color: #fff;
+      border: 1px solid #6c757d;
+      margin-bottom: 20px;
+    }
+
+    .product-card img {
+      object-fit: cover;
+      height: 300px;
+      width: 100%;
+    }
+
+    .product-card-body {
+      padding: 20px;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .quantity-selector {
+      width: 70px;
+      margin-right: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Off-cart</a>
+        
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+        
+            
+            <!-- Add more navbar links as needed -->
+    
+            <!-- Logout Button -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+            </li>
+    
+            <!-- Go to Cart Button -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('checkout') }}">Go to Cart</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+
+  <div class="container">
+    <div class="product-container">
+      <div class="product-card">
+        <img src="{{ product.image_href }}" class="card-img-top" alt="Product Image">
+        <div class="product-card-body">
+          <h1 class="product-title">{{ product.product_name }}</h1>
+          <p class="price">${{ product.price }}</p>
+          <p class="mb-2">{{ product.description }}</p>
+          <label for="quantity" class="text-white">Quantity:</label>
+          <form action="{{ url_for('product_detail', product_id=product.product_id) }}" method="POST">
+            <input type="number" class="form-control quantity-selector" id="quantity" value="1" min="1" name="quantity">
+            <button class="btn btn-primary btn-block mt-2 mb-2" type="submit">Add to Cart</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
+
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
